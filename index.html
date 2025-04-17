@@ -1,0 +1,184 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row =>
+                    row.some(cell => cell !== '' && cell !== null && cell !== undefined)
+                );
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cybersecurity Portfolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-gray-100 font-sans">
+  <!-- Hero Section -->
+  <header class="bg-blue-800 py-16 text-center">
+    <h1 class="text-4xl md:text-5xl font-bold">Addis [Last Name]</h1>
+    <p class="text-xl md:text-2xl mt-2">Aspiring Cybersecurity Professional</p>
+    <p class="mt-4 max-w-2xl mx-auto text-lg">Building secure systems with hands-on experience in intrusion detection, vulnerability scanning, and cloud networking.</p>
+    <div class="mt-6 space-x-4">
+      <a href="#contact" class="inline-block bg-blue-600 text-white py-2 px-6 rounded hover:bg-blue-700">Get in Touch</a>
+      <a href="/resume.pdf" download class="inline-block bg-blue-600 text-white py-2 px-6 rounded hover:bg-blue-700">Download Resume</a>
+    </div>
+  </header>
+
+  <!-- About Section -->
+  <section id="about" class="py-16 px-4 md:px-8">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-3xl font-bold text-center mb-8">About Me</h2>
+      <p class="text-lg leading-relaxed">
+        I am a dedicated cybersecurity enthusiast pursuing a CompTIA Security+ certification, with hands-on experience in configuring intrusion detection systems, deploying honeypots, and managing cloud-based help desk solutions. My projects demonstrate my ability to analyze threats, secure networks, and optimize IT workflows. I am eager to apply my skills in a dynamic cybersecurity role to protect organizations from evolving threats.
+      </p>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects" class="bg-gray-800 py-16 px-4 md:px-8">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-3xl font-bold text-center mb-8">Projects & Coursework</h2>
+      <div class="grid gap-8 md:grid-cols-2">
+        <!-- OSSEC Intrusion Detection -->
+        <div class="bg-gray-700 p-6 rounded-lg shadow-lg">
+          <h3 class="text-xl font-semibold">OSSEC Intrusion Detection System</h3>
+          <p class="text-sm text-gray-400 mt-1">Tools: OSSEC, Kali Linux VM, Bash Scripting</p>
+          <p class="mt-2">Configured OSSEC on a Kali Linux VM, detecting 95% of simulated threats using custom Bash scripts for real-time monitoring.</p>
+          <a href="https://github.com/addis247" target="_blank" class="text-blue-400 hover:underline mt-4 inline-block">View on GitHub</a>
+        </div>
+        <!-- T-Pot Honeypot -->
+        <div class="bg-gray-700 p-6 rounded-lg shadow-lg">
+          <h3 class="text-xl font-semibold">T-Pot Honeypot Deployment</h3>
+          <p class="text-sm text-gray-400 mt-1">Tools: Ubuntu Server ARM64, T-Pot, Kibana, Elastic Stack, Suricata IDS</p>
+          <p class="mt-2">Deployed T-Pot to simulate SSH/SMB/RDP/SIP attacks, monitoring 20+ brute-force attempts. Visualized attack data with Kibana for enhanced threat analysis.</p>
+          <a href="https://github.com/addis247" target="_blank" class="text-blue-400 hover:underline mt-4 inline-block">View on GitHub</a>
+        </div>
+        <!-- osTicket on Azure -->
+        <div class="bg-gray-700 p-6 rounded-lg shadow-lg">
+          <h3 class="text-xl font-semibold">osTicket Help Desk System on Azure</h3>
+          <p class="text-sm text-gray-400 mt-1">Tools: Azure VMs, osTicket, IIS</p>
+          <p class="mt-2">Deployed osTicket on Azure, improving ticket management efficiency by 80% and reducing resolution time by 30%.</p>
+          <a href="http://github.com/addis247/ostickets-prereqs" target="_blank" class="text-blue-400 hover:underline mt-4 inline-block">View on GitHub</a>
+        </div>
+        <!-- Azure Networking -->
+        <div class="bg-gray-700 p-6 rounded-lg shadow-lg">
+          <h3 class="text-xl font-semibold">Azure Networking Exploration</h3>
+          <p class="text-sm text-gray-400 mt-1">Tools: Azure VMs, Network Security Groups, Wireshark</p>
+          <p class="mt-2">Configured Azure VMs and NSGs, achieving 90% understanding of network protocols through Wireshark analysis.</p>
+          <a href="http://github.com/addis247/azure-network-protocols" target="_blank" class="text-blue-400 hover:underline mt-4 inline-block">View on GitHub</a>
+        </div>
+        <!-- Nessus Vulnerability Scanning -->
+        <div class="bg-gray-700 p-6 rounded-lg shadow-lg">
+          <h3 class="text-xl font-semibold">Nessus Vulnerability Scanning</h3>
+          <p class="text-sm text-gray-400 mt-1">Tools: Tenable Nessus, VMware Fusion</p>
+          <p class="mt-2">Performed credentialed scans on Windows 11, identifying 10+ critical vulnerabilities and reducing risks by 15%.</p>
+          <a href="https://github.com/addis247" target="_blank" class="text-blue-400 hover:underline mt-4 inline-block">View on GitHub</a>
+        </div>
+        <!-- Local AI Server -->
+        <div class="bg-gray-700 p-6 rounded-lg shadow-lg">
+          <h3 class="text-xl font-semibold">Local AI Server Configuration</h3>
+          <p class="text-sm text-gray-400 mt-1">Tools: Ollama AI Foundation</p>
+          <p class="mt-2">Set up a local AI server with Ollama, increasing personal productivity by 20% through automated task assistance.</p>
+          <a href="https://github.com/addis247" target="_blank" class="text-blue-400 hover:underline mt-4 inline-block">View on GitHub</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills Section -->
+  <section id="skills" class="py-16 px-4 md:px-8">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-3xl font-bold text-center mb-8">Technical Skills</h2>
+      <div class="flex flex-wrap justify-center gap-4">
+        <span class="bg-blue-600 text-white py-2 px-4 rounded">OSSEC</span>
+        <span class="bg-blue-600 text-white py-2 px-4 rounded">Kali Linux</span>
+        <span class="bg-blue-600 text-white py-2 px-4 rounded">Bash Scripting</span>
+        <span class="bg-blue-600 text-white py-2 px-4 rounded">T-Pot</span>
+        <span class="bg-blue-600 text-white py-2 px-4 rounded">Kibana</span>
+        <span class="bg-blue-600 text-white py-2 px-4 rounded">Elastic Stack</span>
+        <span class="bg-blue-600 text-white py-2 px-4 rounded">Suricata IDS</span>
+        <span class="bg-blue-600 text-white py-2 px-4 rounded">Azure</span>
+        <span class="bg-blue-600 text-white py-2 px-4 rounded">osTicket</span>
+        <span class="bg-blue-600 text-white py-2 px-4 rounded">Wireshark</span>
+        <span class="bg-blue-600 text-white py-2 px-4 rounded">Nessus</span>
+        <span class="bg-blue-600 text-white py-2 px-4 rounded">VMware Fusion</span>
+        <span class="bg-blue-600 text-white py-2 px-4 rounded">Ollama AI</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Blog Section -->
+  <section id="blog" class="bg-gray-800 py-16 px-4 md:px-8">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-3xl font-bold text-center mb-8">Blog</h2>
+      <div class="grid gap-8 md:grid-cols-2">
+        <!-- Blog Post 1 -->
+        <div class="bg-gray-700 p-6 rounded-lg shadow-lg">
+          <h3 class="text-xl font-semibold">Lessons from Configuring OSSEC on Kali Linux</h3>
+          <p class="text-sm text-gray-400 mt-1">April 10, 2025</p>
+          <p class="mt-2">Configuring OSSEC taught me the importance of tailoring intrusion detection rules to specific environments. By writing custom Bash scripts, I achieved a 95% detection rate for simulated threats, but I also learned to balance sensitivity to avoid false positives.</p>
+          <a href="#" target="_blank" class="text-blue-400 hover:underline mt-4 inline-block">Read More</a>
+        </div>
+        <!-- Blog Post 2 -->
+        <div class="bg-gray-700 p-6 rounded-lg shadow-lg">
+          <h3 class="text-xl font-semibold">Why Honeypots Like T-Pot Are Game-Changers</h3>
+          <p class="text-sm text-gray-400 mt-1">April 15, 2025</p>
+          <p class="mt-2">Deploying T-Pot to monitor brute-force attacks showed me how honeypots can reveal attacker tactics. Visualizing 20+ SSH attempts in Kibana helped me understand real-world threats and improve network defenses.</p>
+          <a href="#" target="_blank" class="text-blue-400 hover:underline mt-4 inline-block">Read More</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="bg-gray-800 py-16 px-4 md:px-8">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-3xl font-bold mb-8">Contact Me</h2>
+      <p class="text-lg mb-4">Interested in discussing cybersecurity opportunities? Reach out!</p>
+      <p class="text-lg">Email: addis247@outlook.com</p>
+      <p class="text-lg">LinkedIn: https://linkedin.com/in/zelalem-addis/</p>
+      <p class="text-lg">GitHub: <a href="https://github.com/addis247" target="_blank" class="text-blue-400 hover:underline">github.com/addis247</a></p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 py-4 text-center">
+    <p>© 2025 Addis [Last Name]. All rights reserved.</p>
+  </footer>
+
+  <!-- Smooth Scroll Script -->
+  <script>
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+  </script>
+</body>
+</html>
